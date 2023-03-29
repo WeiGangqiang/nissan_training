@@ -4,7 +4,7 @@
 #include "can_msg.h"
 
 struct CanReceiver {
-  virtual CanMsg Receive() = 0;
+  virtual CanMsg Receive() const = 0;
   virtual ~CanReceiver() {}
 };
 

@@ -8,5 +8,6 @@ include(cmake/gbenchmark.cmake)
 
 add_subdirectory(src)
 add_subdirectory(test)
+add_subdirectory(main)
 
 

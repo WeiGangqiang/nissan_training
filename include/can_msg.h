@@ -5,10 +5,10 @@
 #include <stdint.h>
 #include <array>
 #include <cstring>
+#include "ecu_addr.h"
 #include <initializer_list>
 
 using CanID = uint64_t;
-using EcuAddr = uint8_t;
 using HexBin = std::array<uint8_t, 2>;
 
 struct CanMsg : private can_frame {

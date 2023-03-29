@@ -1,27 +1,12 @@
-#include "mcu_updater.h"
+#include "gtest/gtest.h"
 #include <functional>
 #include <list>
 #include "can_msg.h"
-#include "gtest/gtest.h"
+#include "ecu_bin.h"
+#include "ecu_updater.h"
+#include "sync_ecu_updater.h"
 
 namespace {
-
-class McuUpdaterTest : public testing::Test {};
-
-TEST(McuUpdaterTest, test_can_msg_construct_success) {
-  auto msg = CanMsg(0x21, {0x3, 0x4});
-  ASSERT_EQ(msg.GetLength(), 2);
-  ASSERT_EQ(msg.GetID(), 0x21);
-}
-
-TEST(McuUpdaterTest, test_can_msg_compare_success) {
-  ASSERT_EQ(RequestDownload(0x01), RequestDownload(0x01));
-  ASSERT_NE(RequestDownload(0x01), TransferData(0x01, {0x01, 0x01}));
-  ASSERT_NE(RequestDownload(0x01), RequestDownloadRsp(0x01));
-}
-
-namespace {
-
 using MsgChecker = std::function<void(const CanMsg &msg)>;
 
 struct FakeMcu : public CanSender, CanReceiver {
@@ -33,7 +18,7 @@ struct FakeMcu : public CanSender, CanReceiver {
   }
 
  private:
-  CanMsg Receive() override {
+  CanMsg Receive() const override {
     if (sendMsgs.empty()) {
       return CanMsg{0x00, {0x00}};
     }
@@ -41,7 +26,7 @@ struct FakeMcu : public CanSender, CanReceiver {
     sendMsgs.pop_front();
     return msg;
   }
-  bool Send(const CanMsg &msg) override {
+  bool Send(const CanMsg &msg) const override {
     if (checkers.empty()) {
       return false;
     }
@@ -52,8 +37,8 @@ struct FakeMcu : public CanSender, CanReceiver {
   }
 
  private:
-  std::list<MsgChecker> checkers;
-  std::list<CanMsg> sendMsgs;
+  mutable std::list<MsgChecker> checkers;
+  mutable std::list<CanMsg> sendMsgs;
 };
 
 #define RECV(...) ExpectRecv([&](const CanMsg &msg) __VA_ARGS__);
@@ -61,8 +46,9 @@ struct FakeMcu : public CanSender, CanReceiver {
 
 }  // namespace
 
+class EcuUpdaterTest : public testing::Test {};
 
-TEST(McuUpdaterTest, test_request) {
+TEST(EcuUpdaterTest, test_request) {
   constexpr EcuAddr bcm_addr = 0x03;
   constexpr HexBin  bcm_bin = {0x01, 0x02};
   FakeMcu bcm;
@@ -79,7 +65,7 @@ TEST(McuUpdaterTest, test_request) {
 
   bcm.SEND(EndRequestRsp(bcm_addr));
 
-  ASSERT_TRUE(McuUpdater(bcm, bcm).Update(bcm_addr, bcm_bin));
+  const SyncEcuUpdater syncUpdater(bcm, bcm);
+  ASSERT_TRUE(static_cast<const EcuUpdater &>(syncUpdater).Update(EcuBin(bcm_addr, bcm_bin)));
 }
 
-}  // namespace

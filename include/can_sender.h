@@ -4,7 +4,7 @@
 struct CanMsg;
 
 struct CanSender {
-  virtual bool Send(const CanMsg &msg) = 0;
+  virtual bool Send(const CanMsg &msg) const = 0;
   virtual ~CanSender() {}
 };
 
