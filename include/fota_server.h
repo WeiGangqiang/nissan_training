@@ -26,7 +26,7 @@ struct FotaServer {
     HexBin updatingBin;
     HexBin runningBin;
     bool isNeedUpdate() const {
-      return runningBin == updatingBin;
+      return runningBin != updatingBin;
     }
   };
   using EcuUpdateStatePtr = std::unique_ptr<EcuUpdateState>;
