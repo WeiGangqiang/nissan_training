@@ -1,5 +1,7 @@
 #include "sync_ecu_updater.h"
 #include "ecu_bin.h"
+#include "can_sender.h"
+#include "can_receiver.h"
 #include "log.h"
 
 SyncEcuUpdater::SyncEcuUpdater(const CanSender &sender, const CanReceiver &receiver) : sender(sender), receiver(receiver) {}

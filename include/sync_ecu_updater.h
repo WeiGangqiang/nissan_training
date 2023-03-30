@@ -3,9 +3,9 @@
 
 #include "ecu_updater.h"
 #include "can_msg.h"
-#include "can_receiver.h"
-#include "can_sender.h"
 
+struct CanSender;
+struct CanReceiver;
 
 struct SyncEcuUpdater: public EcuUpdater {
   SyncEcuUpdater(const CanSender &, const CanReceiver &);

@@ -8,4 +8,5 @@ target_include_directories(fota_server
         )
 
 target_link_libraries(fota_server PUBLIC pthread)
+
 target_compile_options(fota_server PUBLIC -fPIC)

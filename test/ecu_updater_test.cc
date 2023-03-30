@@ -1,10 +1,13 @@
 #include "gtest/gtest.h"
 #include <functional>
 #include <list>
+#include <deque>
 #include "can_msg.h"
 #include "ecu_bin.h"
 #include "ecu_updater.h"
 #include "sync_ecu_updater.h"
+#include "can_sender.h"
+#include "can_receiver.h"
 
 namespace {
 using MsgChecker = std::function<void(const CanMsg &msg)>;
@@ -38,7 +41,7 @@ struct FakeMcu : public CanSender, CanReceiver {
 
  private:
   mutable std::list<MsgChecker> checkers;
-  mutable std::list<CanMsg> sendMsgs;
+  mutable std::deque<CanMsg> sendMsgs;
 };
 
 #define RECV(...) ExpectRecv([&](const CanMsg &msg) __VA_ARGS__);
