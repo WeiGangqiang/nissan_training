@@ -5,6 +5,7 @@
 #include <future>
 #include <memory>
 #include <mutex>
+#include <map>
 #include <unordered_map>
 #include "ecu_bin.h"
 #include "ecu_updater.h"
@@ -34,7 +35,7 @@ struct FotaServer {
  private:
   std::mutex mtx;
   std::unordered_map<EcuAddr, EcuUpdateStatePtr> updateEcus;
-  std::unordered_map<EcuAddr, const EcuUpdater *> ecuUpdaters;
+  std::map<EcuAddr, const EcuUpdater *> ecuUpdaters;
   std::atomic<bool> runningFlag;
   std::future<bool> taskResult;
 };
