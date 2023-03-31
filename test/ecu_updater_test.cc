@@ -33,7 +33,7 @@ struct FakeMcu : public CanSender, CanReceiver {
     if (checkers.empty()) {
       return false;
     }
-    auto checker = checkers.front();
+    auto& checker = checkers.front();
     checkers.pop_front();
     checker(msg);
     return true;

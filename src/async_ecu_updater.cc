@@ -10,5 +10,6 @@ bool AsyncEcuUpdater::Update(const EcuBin &ecuBin) const {
   std::future<bool> fut = std::async(std::launch::async, [this, ecuBin = ecuBin](){
       return updater.Update(ecuBin);
   });
+
   return fut.get();
 }

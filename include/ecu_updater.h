@@ -8,7 +8,7 @@ struct EcuBin;
 
 struct EcuUpdater {
   virtual bool Update(const EcuBin& ecuBin) const = 0;
-  ~EcuUpdater() {}
+  virtual ~EcuUpdater() {}
 };
 
 
