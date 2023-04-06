@@ -62,10 +62,10 @@ target_include_directories(gmock_main INTERFACE ${GTEST_PKG_DIR}/include)
 set(INSTALL_BASE_DIR "")
 set(INSTALL_LIBRARY_DIR lib)
 
-install(FILES ${GTEST_PKG_DIR}/lib/libgtest.so ${GTEST_PKG_DIR}/lib/libgtest_main.so ${GTEST_PKG_DIR}/lib/libgmock.so ${GTEST_PKG_DIR}/lib/libgmock_main.so OPTIONAL
-        DESTINATION ${INSTALL_LIBRARY_DIR})
-
-install(DIRECTORY ${GTEST_INCLUDE} DESTINATION ${GTEST_PKG_DIR}/include)
+#install(FILES ${GTEST_PKG_DIR}/lib/libgtest.so ${GTEST_PKG_DIR}/lib/libgtest_main.so ${GTEST_PKG_DIR}/lib/libgmock.so ${GTEST_PKG_DIR}/lib/libgmock_main.so OPTIONAL
+#        DESTINATION ${INSTALL_LIBRARY_DIR})
+#
+#install(DIRECTORY ${GTEST_INCLUDE} DESTINATION ${GTEST_PKG_DIR}/include)
 
 add_dependencies(gtest gtest_build)
 

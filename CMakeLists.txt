@@ -10,4 +10,15 @@ add_subdirectory(src)
 add_subdirectory(test)
 add_subdirectory(main)
 
+# 配置 CPack
+set(CPACK_GENERATOR "RPM")
+set(CPACK_PACKAGE_NAME "fota_server")
+set(CPACK_PACKAGE_VERSION "1.0.0")
+set(CPACK_PACKAGE_RELEASE "1")
+set(CPACK_PACKAGING_INSTALL_PREFIX "/usr/local")
+install(FILES build/test/fota_test DESTINATION /usr/local)
+install(FILES ./output/gtest/lib/libgtest.so ./output/gtest/lib/libgtest_main.so DESTINATION /code/Turing/nissan_training/output/gtest/lib)
+
+include(CPack)
+
 
